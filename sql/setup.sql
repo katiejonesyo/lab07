@@ -1,9 +1,22 @@
-DROP TABLE IF EXISTS booger;
+DROP TABLE IF EXISTS sewers CASCADE;
+DROP TABLE IF EXISTS sewermonsters;
 
-CREATE TABLE bots (
+
+CREATE TABLE sewers(
 id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-TEXT NOT NULL,
-TEXT,
-TEXT
-
+size TEXT NOT NULL,
+smelly_scale TEXT
 );
+
+
+
+CREATE TABLE sewermonsters(
+id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+name TEXT NOT NULL,
+type TEXT,
+cute INTEGER CHECK (cute > 0),
+ferocious TEXT,
+sewermonsters_id BIGINT REFERENCES sewers(id)
+);
+
+
