@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS sewermonsters;
 
 CREATE TABLE sewers(
 id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-size TEXT NOT NULL,
+size TEXT,
 smelly_scale TEXT
 );
 
@@ -15,7 +15,7 @@ id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 type TEXT NOT NULL,
 cute TEXT,
 ferocious TEXT,
-sewermonsters_id BIGINT REFERENCES sewers(id)
+sewers_id BIGINT REFERENCES sewers(id)
 );
 
 

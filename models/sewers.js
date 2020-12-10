@@ -1,4 +1,5 @@
 const pool = require('../utils/pool.js');
+const Sewermonsters = require('../models/sewermonsters.js')
 
 module.exports = class Sewers {
     id;
@@ -29,12 +30,35 @@ module.exports = class Sewers {
             return rows.map(row => new Sewers(row));
     }
 
-    static async findById(id) {
-        const { rows } = await pool.query('SELECT * FROM sewers WHERE id=$1', [id]);
 
-        if(!rows[0]) throw new Error(`No sewers with id ${id}`);
-        return new Sewers(rows[0]);
-    }
+    //OLD FIND BY ID //
+    // static async findById(id) {
+    //     const { rows } = await pool.query('SELECT * FROM sewers WHERE id=$1', [id]);
+
+    //     if(!rows[0]) throw new Error(`No sewers with id ${id}`);
+    //     return new Sewers(rows[0]);
+    // }
+
+
+    //JOIN FIND BY ID//
+    static async findById(id) {
+        const { rows } = await pool.query(
+          `SELECT
+            sewers.*,
+            array_to_json(array_agg(sewermonsters.*)) AS sewermonsters
+              FROM sewers 
+              JOIN sewermonsters
+              ON sewers.id = sewermonsters.sewers_id
+              WHERE sewers.id=$1
+              GROUP BY sewers.id`, [id]
+        );
+        if (!rows[0]) throw new Error(`No sewers with id ${id}`);
+        return {
+          ...new Sewers(rows[0]),
+          sewermonsters: rows[0].sewermonsters.map(sewermonsters => new Sewermonsters(sewermonsters))
+        };
+      }
+    
 
     static async update(id, { size, smelly_scale }) {
         const { rows } = await pool.query(
@@ -56,5 +80,6 @@ module.exports = class Sewers {
         return new Sewers(rows[0]);
     }
 
-
 };
+
+
