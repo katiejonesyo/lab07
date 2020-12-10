@@ -12,9 +12,8 @@ smelly_scale TEXT
 
 CREATE TABLE sewermonsters(
 id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-name TEXT NOT NULL,
-type TEXT,
-cute INTEGER CHECK (cute > 0),
+type TEXT NOT NULL,
+cute TEXT,
 ferocious TEXT,
 sewermonsters_id BIGINT REFERENCES sewers(id)
 );
