@@ -5,25 +5,25 @@ module.exports = class Sewermonsters {
     type;
     cute;
     ferocious;
-    sewersId;
+    sewers_id;
 
     
 
     constructor(row) {
-        this.id = row.id;
+        this.id = String(row.id);
         this.type = row.type;
         this.cute = row.cute;
         this.ferocious = row.ferocious;
-        this.sewersId = row.sewers_id;
+        this.sewers_id = String(row.sewers_id);
 
     }
 
      // Crud Methods
 
-     static async insert({ type, cute, ferocious, sewersId}) {
+     static async insert({ type, cute, ferocious, sewers_id}) {
         const { rows } = await pool.query(
           'INSERT INTO sewermonsters (type, cute, ferocious, sewers_id) VALUES ($1, $2, $3, $4) RETURNING *',
-          [type, cute, ferocious, sewersId]
+          [type, cute, ferocious, sewers_id]
         );
            
         return new Sewermonsters(rows[0]);

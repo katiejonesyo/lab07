@@ -7,7 +7,7 @@ module.exports = class Sewers {
     smelly_scale;
 
     constructor(row) {
-        this.id = row.id;
+        this.id = String(row.id);
         this.size = row.size;
         this.smelly_scale = row.smelly_scale;
     }
